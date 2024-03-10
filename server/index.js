@@ -4,7 +4,15 @@ const cors = require("cors");
 const UserModel = require("./models/User");
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin:["https://cruds-mern-stack.vercel.app/"],
+  methods:["POST", "GET"],
+  credentials:true
+}));
+
+
+
 app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/FSCrud");
@@ -16,19 +24,19 @@ app.get("/", (req, res) => {
 });
 app.get("/getUser/:id", (req, res) => {
   const _id = req.params.id;
-  UserModel.findById({_id })
+  UserModel.findById({ _id })
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
 app.get("/updateUser/:id", (req, res) => {
   const _id = req.params.id;
-  UserModel.findById({_id: id}, {input: req.body.input})
+  UserModel.findById({ _id: id }, { input: req.body.input })
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
 app.delete("/deleteUser/:id", (req, res) => {
   const id = req.params.id;
-  UserModel.findByIdAndDelete({_id: id})
+  UserModel.findByIdAndDelete({ _id: id })
     .then((res) => res.json(res))
     .catch((err) => res.json(err));
 });
